@@ -2,7 +2,7 @@ import express from "express";
 import notesRoutes from "./routes/notesRoutes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
-import ratelimit from "./config/upstash.js";
+import cors from "cors";
 import ratelimiter from "./middleware/rateLimiter.js";
 // const express = require("express")
 
@@ -18,9 +18,17 @@ const PORT = process.env.PORT || 5001
 // endpoint adalah kombinasi URL + HTTP method dari klien yang berinteraksi dengan spesifik 
 
 // Midleware
+app.use
+(cors({
+    origin: "http://localhost:5173",
+    })
+);
+
 app.use(express.json()); //midleware ini memparsing JSON body dari req.body
 
 app.use(ratelimiter)
+
+
 
 // contoh middleware sederhana
 // app.use((req, res, next) => {

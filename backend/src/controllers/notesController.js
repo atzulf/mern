@@ -3,10 +3,10 @@ import Note from "../models/Note.js"
 export async function getAllNotes(req, res) {
     // res.status(200).send("kmu baru saja berhasil feching api apipii fireeee omawwa");
     try {
-        const notes = await Note.find().sort({ createAt: -1}); //digunakan untuk mengurutkan dari awal
+        const notes = await Note.find().sort({ createdAt: -1}); //digunakan untuk mengurutkan dari awal
         res.status(200).json(notes)
     }
-    catch {
+    catch (error) {
         console.error("Error in getAllNotesController", error);
         res.status(500).json({message: "Internal Server Error"});
     }
@@ -58,7 +58,7 @@ export async function updateNotes(req, res) {
 
 export async function deleteNotes(req, res) {
     try {
-        const deletedNotes = await Note.findOneAndDelete
+        const deletedNotes = await Note.findByIdAndDelete
         (req.params.id)
         if(!deletedNotes) return res.status(404).json({message: "Note tidak ditemukan"});
         res.status(200).json({message: "Note berhasil dihapus!"})

@@ -16,7 +16,13 @@ const PORT = process.env.PORT || 5001
 // endpoint adalah kombinasi URL + HTTP method dari klien yang berinteraksi dengan spesifik 
 
 // Midleware
-app.use(express.json());
+app.use(express.json()); //midleware ini memparsing JSON body dari req.body
+
+
+app.use((req, res, next) => {
+    console.log(`Req method is ${req.method} & Req URL is ${req.url}`);
+    next();
+});
 
 app.use("/api/notes", notesRoutes);
 
@@ -25,5 +31,3 @@ connectDB();
 app.listen(PORT, () => {
     console.log("server, started on PORT :", PORT);
 });
-
-// mongodb+srv://mazegent123_db_user:6727o5K3uv8KNJbt@cluster0.cnlm0oo.mongodb.net/?appName=Cluster0

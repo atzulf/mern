@@ -2,6 +2,8 @@ import express from "express";
 import notesRoutes from "./routes/notesRoutes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
+import ratelimit from "./config/upstash.js";
+import ratelimiter from "./middleware/rateLimiter.js";
 // const express = require("express")
 
 dotenv.config();
@@ -18,16 +20,20 @@ const PORT = process.env.PORT || 5001
 // Midleware
 app.use(express.json()); //midleware ini memparsing JSON body dari req.body
 
+app.use(ratelimiter)
 
-app.use((req, res, next) => {
-    console.log(`Req method is ${req.method} & Req URL is ${req.url}`);
-    next();
-});
+// contoh middleware sederhana
+// app.use((req, res, next) => {
+//     console.log(`Req method is ${req.method} & Req URL is ${req.url}`);
+//     next();
+// });
 
 app.use("/api/notes", notesRoutes);
 
-connectDB();
-
-app.listen(PORT, () => {
-    console.log("server, started on PORT :", PORT);
+connectDB().then (() => {
+    app.listen(PORT, () => {
+        console.log("server, started on PORT :", PORT);
+    });
 });
+
+

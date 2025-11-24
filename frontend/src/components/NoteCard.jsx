@@ -1,8 +1,24 @@
 import { PenSquareIcon, Trash2Icon } from "lucide-react";
 import { Link } from "react-router";
 import { formatDate } from "../lib/utils";
+import api from "../lib/axios";
+import toast from "react-hot-toast";
 
-const NoteCard = ({note}) => {
+const NoteCard = ({note, setNotes}) => {
+
+    const handleDelete = async (e,id) => {
+        e.preventDefault(); // menghalangi default aksi bawaan biar tidak reload otomatis
+    
+        if(!window.confirm("Apakah kamu yakin untuk menghapus?")) return;
+        try {
+            await api.delete(`/notes/${id}`)
+            setNotes((prev) => prev.filter(note => note._id !== id)) // Hapus note dari state dengan memfilter note yang _id-nya tidak sama dengan id
+            toast.success("Note berhasil dihapus");
+        } catch (error) {
+            console.log("Error in handleDelete", error);
+            toast.error("Note gagal dihapus");
+        }
+    };
     return <Link to={`/note/${note._id}`}
     className="card bg-cyan-950/90 blend-color-dodge hover:shadow-lg transition-all duration-200 
     border-t-4 border-solid border-cyan-500"
@@ -21,7 +37,7 @@ const NoteCard = ({note}) => {
 
                 <div className="flex items-center gap-1">
                     <PenSquareIcon className="size-4"/>
-                    <button className="btn btn-ghost btn-xs text-error">
+                    <button className="btn btn-ghost btn-xs text-error" onClick={(e) => handleDelete(e,note._id)}>
                         <Trash2Icon className="size-4"/>
                     </button>
 

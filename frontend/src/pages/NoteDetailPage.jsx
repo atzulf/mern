@@ -40,24 +40,47 @@ const NoteDetailPage = () => {
             <Navbar />
 
             <div className="max-w-4xl mx-auto p-4 mt-6">
-                
-                {/* Header action area */}
-                <div className="flex items-center justify-between mb-6">
-                    <Link to="/" className="btn btn-ghost">
-                        <ArrowLeftIcon className="h-5 w-5" />
-                        Kembali Ke Home
-                    </Link>
+                <div className="max-w-2xl mx-auto">
+                    {/* Header action area */}
+                    <div className="flex items-center justify-between mb-6">
+                        <Link to="/" className="btn btn-ghost">
+                            <ArrowLeftIcon className="h-5 w-5" />
+                            Kembali Ke Home
+                        </Link>
 
-                    <button
-                        onClick={handleDelete}
-                        className="btn btn-error btn-outline"
-                    >
-                        <Trash2Icon className="h-5 w-5" />
-                        Hapus Note
-                    </button>
+                        <button
+                            onClick={handleDelete}
+                            className="btn btn-error btn-soft"
+                        >
+                            <Trash2Icon className="h-5 w-5" />
+                            Hapus Note
+                        </button>
+                    </div>
+
+                    <div className="card bg-cyan-950/90 backdrop-blur-sm 
+                    hover:shadow-lg transition-all duration-200
+                    border-t-4 border-cyan-500">
+                        <div className="card-body">
+
+                            {/* Title Field */}
+                            <div>
+                                <label className="block text-sm font-semibold mb-4">
+                                    Judul
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Masukkan judul catatan"
+                                    className="w-full bg-base-100/40 border border-base-content/20 
+                                            rounded-xl px-4 py-2 h-12 focus:ring-2 focus:ring-primary"
+                                    value={note.title}
+                                    onChange={(e) => setNote({ ...note, title: e.target.value })}
+                                />
+                            </div>
+
+                            
+                        </div>
+                    </div>
                 </div>
-
-                
             </div>
         </div>
     );

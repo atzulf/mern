@@ -81,7 +81,7 @@ const CreatePage = () => {
                             <input
                                 type="text"
                                 placeholder="Masukkan judul catatan"
-                                className="w-full bg-base-100/40 border border-base-content/20 rounded-xl px-4 py-2 focus:ring-2 focus:ring-primary"
+                                className="w-full bg-base-100/40 border border-base-content/20 rounded-xl px-4 py-2 h-12 focus:ring-2 focus:ring-primary"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                             />

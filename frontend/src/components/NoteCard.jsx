@@ -40,8 +40,8 @@ const NoteCard = ({note, setNotes}) => {
                     <button className="btn btn-ghost btn-xs text-error" onClick={(e) => handleDelete(e,note._id)}>
                         <Trash2Icon className="size-4"/>
                     </button>
-
                 </div>
+                
             </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { ArrowLeftIcon} from "lucide-react";
+import { ArrowLeftIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
@@ -8,88 +8,113 @@ const CreatePage = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate()
+
+    const messages429 = [
+        "Sante bro! slow, mencetmu kecepeten 🤬",
+        "Napaaaa kliknya kayak pake turbo? 🏎️💨",
+        "Bro tarik napas dulu 😤",
+        "Santai... server bukan kereta cepat 😭",
+        "Tenang masbro, jangan marah-marah 😅",
+        "Gass pol juga servernya ngos-ngosan lho 🥵",
+    ];
+
+        const random429Message = () => {
+    return messages429[Math.floor(Math.random() * messages429.length)];
+    };
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if(!title.trim() || !content.trim()) {
-            toast.error("Semua kolom harus terpenuhi");
+
+        if (!title.trim() || !content.trim()) {
+            toast.error("Semua kolom harus terisi");
             return;
         }
 
-        setLoading(true)
+        setLoading(true);
+
         try {
-            await api.post("/notes", {
-                title,
-                content
-            });
+            await api.post("/notes", { title, content });
 
             toast.success("Note berhasil dibuat");
-            navigate("/")
+            navigate("/");
         } catch (error) {
-            console.log("Error membuat Note",error);
-            if(error.response.status === 429) {
-                toast.error("Sante bro! slow, mencetmu kecepeten", {
-                duration: 4000,
-                icon:"🤬",
-            });
+            console.log("Error membuat Note", error);
+
+            if (error.response?.status === 429) {
+                toast.error(random429Message(), {
+                    duration: 4000,
+                });
             } else {
                 toast.error("Gagal membuat Note");
             }
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-base-200">
-            <div className='container mx-auto px-4 py-5'>
-                <div className='max-w-2xl mx-auto'>
-                    <Link to={"/"} className="btn btn-ghost mb-6">
-                        <ArrowLeftIcon className="size-5" />
-                        Kembali ke note
-                    </Link>
+        <div className="min-h-screen">
+            <div className="max-w-3xl mx-auto p-4">
 
-                    <div className="card bg-base-100">
-                        <div className="card-body p-6">
-                            <h2 className="card-title text-2xl mb-4">Buat Note Baru</h2>
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-4">
-                                    <label className="block text-sm font-semibold mb-5">Judul</label>
-                                        <input 
-                                            type="text" 
-                                            placeholder="Tulis Judul Catatan"
-                                            className="w-full bg-base-100 border border-base-content/20 rounded-full px-4 py-2 focus:ring-2 focus:ring-primary"
-                                            value={title}
-                                            onChange={(e) => setTitle(e.target.value)}
-                                        />
-                                </div>
+                {/* Back Button */}
+                <Link to="/" className="btn btn-ghost mb-6">
+                    <ArrowLeftIcon className="h-5 w-5" />
+                    Kembali Ke Home
+                </Link>
 
-                                <div className="mb-4">
-                                <label className="block text-sm font-semibold mb-1">Isi Note</label>
-                                <textarea
-                                    placeholder="Tulis Diarymu disini"
-                                    className="w-full bg-base-100 border border-base-content/20 rounded-xl px-4 py-2 h-32 focus:ring-2 focus:ring-primary"
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)}
-                                />
-                                </div>
+                {/* Form Card */}
+                <div className="card bg-cyan-950/90 blend-color-dodge hover:shadow-lg transition-all duration-200 
+                    border-t-4 border-solid border-cyan-500 p-6">
+                    <h2 className="card-title text-2xl mb-5">
+                        Buat Note Baru
+                    </h2>
 
+                    <form onSubmit={handleSubmit} className="space-y-4">
 
-                            <div className="card-actions justify-end">
-                            <button type="submit" className="btn btn-primary rounded-4xl" disabled={loading}>
-                                {loading ? "Creating..." : "Klik untuk buat"}
-                            </button>
-                            </div>
-
-                            </form>
+                        {/* Title Field */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1">
+                                Judul
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Masukkan judul catatan"
+                                className="w-full bg-base-100/40 border border-base-content/20 rounded-xl px-4 py-2 focus:ring-2 focus:ring-primary"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
                         </div>
-                    </div>
+
+                        {/* Content Field */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1">
+                                Isi Note
+                            </label>
+                            <textarea
+                                placeholder="Tulis catatanmu di sini..."
+                                className="w-full bg-base-100/40 border border-base-content/20 rounded-xl px-4 py-2 h-40 resize-none focus:ring-2 focus:ring-primary"
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="flex justify-end">
+                            <button
+                                type="submit"
+                                className="btn btn-primary rounded-xl px-6"
+                                disabled={loading}
+                            >
+                                {loading ? "Membuat..." : "Buat"}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     );
 };
 
-export default CreatePage
+export default CreatePage;

@@ -45,7 +45,26 @@ const NoteDetailPage = () => {
         }
     };
 
-    const handeSave = () => {};
+    const handeSave = async () => {
+        if(!note.title.trim() || !note.content.trim()) {
+            toast.error("Silahkan isi judul atau Note☺️😭🙏");
+            return;
+        }
+
+        setSaving(true)
+
+        try {
+            await api.put(`/notes/${id}`,note)
+            toast.success("Note berhasil diupdate😎");
+            navigate("/")
+        } catch (error) {
+            console.log("Gagal menyimpan Note😭", error);
+            toast.error("Gagal meng-update note🤬");
+        } finally {
+            setSaving(false)
+        }
+
+    };
     
     if (loading) return <SpinnerLoad />;
 

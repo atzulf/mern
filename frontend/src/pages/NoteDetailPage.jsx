@@ -115,7 +115,7 @@ const NoteDetailPage = () => {
 
                             <div className="card-actions justify-end">
                                 <button className="btn btn-primary" disabled={saving} onClick={handeSave}>
-                                    {saving ? "Saving..." : "Save Changes"}
+                                    {saving ? "Otw simpan boss" : "Simpan Catatan"}
                                 </button>
                             </div>
 

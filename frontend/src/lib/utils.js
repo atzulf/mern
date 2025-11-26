@@ -1,7 +1,9 @@
 export function formatDate(date) {
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString("id-ID", {
+        day: "2-digit",
         month: "short",
-        day: "numeric",
         year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
     });
 }
